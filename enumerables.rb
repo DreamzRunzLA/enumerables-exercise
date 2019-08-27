@@ -82,6 +82,24 @@ class Array
         return finalAns
     end
 
-    
+    def my_join(sep = '')
+        ans = ''
+        self.each do |ele|
+            ans += ele.to_s + sep
+        end
+        return ans
+    end
+
+    def my_reverse
+        ans = []
+        i = self.length - 1
+        while i >= 0
+            ans << self[i]
+            i -= 1
+        end
+        return ans
+    end
+
+
 
 end
