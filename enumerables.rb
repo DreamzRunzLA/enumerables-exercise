@@ -70,16 +70,18 @@ class Array
     end
 
     def my_rotate(dir = 1)
-
         finalAns = Array.new(self.length, nil)
-
         self.each_with_index do |ele, i|
             temp = ele
-            newIndex = dir % self.length
+            newIndex = i - (dir % self.length) + self.length
+            if newIndex >= self.length
+                newIndex -= self.length
+            end
             finalAns[newIndex] = temp
         end
-
         return finalAns
     end
+
+    
 
 end
