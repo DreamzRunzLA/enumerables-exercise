@@ -111,7 +111,14 @@ class Array
 # Write a method `factors(num)` that returns an array containing all the
 # factors of a given number.
     def factors(num)
-
+        ans = []
+        candidates = (1...num).to_a
+        candidates.each do |cand|
+            if num % cand == 0
+                ans << cand
+            end
+        end
+        return ans
     end
 
 
@@ -154,11 +161,34 @@ class Array
 #
 # http://stackoverflow.com/questions/827649/what-is-the-ruby-spaceship-operator
     def bubble_sort!(&prc)
-
+        prc ||= Proc.new {|a, b| (a <=> b) == 1 ? true : false}
+        sorted = false
+        while !sorted
+            sorted = true
+            (0...self.length).each do |index|
+                if prc.call(self[index], self[index+1])
+                    sorted = false
+                    self[index], self[index+1] = self[index + 1], self[index]
+                end
+            end
+        end
+        return self
     end
 
     def bubble_sort(&prc)
-
+        duplicate = self.dup
+        prc ||= Proc.new {|a, b| (a <=> b) == 1 ? true : false}
+        sorted = false
+        while !sorted
+            sorted = true
+            (0...duplicate.length).each do |index|
+                if prc.call(duplicate[index], duplicate[index+1])
+                    sorted = false
+                    duplicate[index], duplicate[index+1] = duplicate[index + 1], duplicate[index]
+                end
+            end
+        end
+        return duplicate
     end
 
 ### Substrings and Subwords
@@ -174,11 +204,20 @@ class Array
 # `subwords` will accept both a string and a dictionary (an array of
 # words).
     def substrings(string)
-
+        ans = []
+        string.each_char.with_index do |char, i|
+            string.each_char.with_index do |char2, k|
+                if k >= i
+                    ans << string[i..k]
+                end
+            end
+        end
+        return ans
     end
 
-    def subwords(word, dictionary)
-
+    def subwords(string, dictionary)
+        allSubs = substrings(string)
+        return allSubs.select {|ele| dictionary.include?(ele)}
     end
 
 end
